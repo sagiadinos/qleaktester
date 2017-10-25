@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>small.webm</file>
+    </qresource>
+</RCC>
