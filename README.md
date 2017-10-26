@@ -7,7 +7,7 @@ To isolate I wrote this little tool, which can play continouesly a little video 
 
 It is neither a big thing not a replacement for valgrind, but it gives me some hints and maybe someone else can use it.
 
-# qleaktester
+# Remarks
 
 QtAV should be installed
 
