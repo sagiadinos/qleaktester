@@ -122,6 +122,8 @@ void MainWindow::clickAllocateQtAV()
 {
      QtAVVideoWidget.reset(new QtAV::WidgetRenderer);
      QtAVMediaDecoder.reset(new QtAV::AVPlayer);
+     QtAVMediaDecoder.data()->audio()->setBufferSamples(128); // prevent stuttering
+
      connect(QtAVMediaDecoder.data(), SIGNAL(mediaStatusChanged(QtAV::MediaStatus)), this, SLOT(doMediaStatusChangedQtAV(QtAV::MediaStatus)));
      QtAVMediaDecoder.data()->addVideoRenderer(QtAVVideoWidget.data());
      ui->video_widget_layout->addWidget(QtAVVideoWidget.data());
@@ -169,14 +171,16 @@ void MainWindow::timerEvent(QTimerEvent *event)
 void MainWindow::outputMemoryUsage()
 {
     qint64  actual = getCurrentRSS();
-    if (actual > max_memory_used)
-        max_memory_used = actual;
     double d_actual = (double)actual / (double)1048576;
-    double d_max = (double)max_memory_used / (double)1048576;
     ui->OutputMemoryUse->setText(QString("Now: %1" ).arg(d_actual, 0, 'f', 2) + " MiB");
-    ui->MaxMemoryUsed->setText(QString("Max: %1" ).arg(d_max, 0, 'f', 2) + " MiB");
-}
 
+    if (actual > max_memory_used)
+    {
+        max_memory_used = actual;
+        double d_max = (double)max_memory_used / (double)1048576;
+        ui->MaxMemoryUsed->setText(QString("Max: %1" ).arg(d_max, 0, 'f', 2) + " MiB (" + QTime::currentTime().toString() +")");
+    }
+}
 
 qint64 MainWindow::getCurrentRSS()
 {

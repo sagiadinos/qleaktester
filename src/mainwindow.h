@@ -41,7 +41,7 @@ class MainWindow : public QMainWindow
 
         int           repeats_qtmultimedia = 0;
         int           repeats_qtav = 0;
-        qint64        max_memory_used;
+        qint64        max_memory_used = 0;
         void          timerEvent(QTimerEvent *event);
         qint64        getCurrentRSS();
     public slots:
